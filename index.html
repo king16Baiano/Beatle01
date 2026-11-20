@@ -1,44 +1,201 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Savage</title>
-
-<style type="text/css">
-
-    h1{
-        color: azure;
-    }
-
-    body {
-        background-image: url(https://i.pinimg.com/736x/39/f4/c4/39f4c4b2b42997b3a47f9722abfd7da8.jpg);
-        background-size: cover;
-        background-attachment: fixed;
-        background-position: center;
-    }
-
-    .caixa-texto {
-        width: 300px;
-        background-color: rgba(50, 50, 50, 0.75); 
-        border: 2px solid #ffffff;
-        border-radius: 8px;
-        padding: 20px;
-        margin: 20px 0;
-    }
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tenho uma pergunta pra você</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&display=swap">
+<style>
+:root{--bg:#fff1ee;--ink:#3b1030;--soft:#7a4a6b;--rose:#e8265e;--rose-ink:#fff;--card:#ffffff;--line:#f3c9d2;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d0a1f;--ink:#ffe9ee;--soft:#d9a9bf;--rose:#ff5c86;--rose-ink:#2a0618;--card:#2b1230;--line:#5a2a52}}
+:root[data-theme="dark"]{--bg:#1d0a1f;--ink:#ffe9ee;--soft:#d9a9bf;--rose:#ff5c86;--rose-ink:#2a0618;--card:#2b1230;--line:#5a2a52}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--ink);font:17px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:grid;place-items:center;overflow:hidden}
+main{width:min(92vw,30rem);text-align:center;padding:2.2rem 1.4rem 2rem;background:var(--card);border:2px solid var(--line);border-radius:28px 28px 28px 6px}
+.heart{font-size:3.2rem;line-height:1;display:inline-block;animation:beat 1.6s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+h1{font-family:Fraunces,Georgia,"Times New Roman",serif;font-weight:500;font-size:clamp(1.9rem,7vw,2.6rem);line-height:1.15;margin:.8rem 0 .4rem;text-wrap:balance}
+h1 em{font-style:italic;color:var(--rose)}
+p{margin:.2rem 0 1.6rem;color:var(--soft)}
+.row{display:flex;gap:.9rem;justify-content:center;align-items:center;min-height:4rem}
+button{font:inherit;font-weight:600;border:0;border-radius:999px;padding:.8rem 1.6rem;cursor:pointer}
+#sim{background:var(--rose);color:var(--rose-ink);transition:transform .25s ease;transform:scale(var(--s,1))}
+#sim:focus-visible,#nao:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+#nao{background:transparent;color:var(--soft);border:2px solid var(--line)}
+#nao.fly{position:fixed;z-index:5;transition:left .25s ease,top .25s ease}
+.done h1{margin-top:.6rem}
+.hearts i{position:fixed;bottom:-2rem;font-style:normal;animation:up linear forwards;pointer-events:none;z-index:9}
+@keyframes up{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+main{position:relative;z-index:1;transition:transform .45s cubic-bezier(.3,1.6,.5,1);transform:translate(var(--x,0px),var(--y,0px)) rotate(var(--r,0deg))}
+.shake{animation:shake .45s}
+@keyframes shake{0%,100%{translate:0 0}20%{translate:-10px 0}40%{translate:10px 0}60%{translate:-6px 0}80%{translate:6px 0}}
+.done{animation:pop .7s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{scale:.9}60%{scale:1.06}100%{scale:1}}
+#sim{animation:glow 1.8s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(232,38,94,.55)}50%{box-shadow:0 0 0 14px rgba(232,38,94,0)}}
+.bg i{position:fixed;bottom:-2rem;font-style:normal;opacity:.4;animation:up linear infinite;pointer-events:none;z-index:0}
+.quebra{position:fixed;font-style:normal;pointer-events:none;z-index:9;animation:cai .9s ease-in forwards}
+@keyframes cai{to{transform:translateY(80px) rotate(40deg);opacity:0}}
+body.aberta{overflow:auto;align-items:start;height:auto;min-height:100%;padding:1.2rem 0}
+.papel{white-space:pre-wrap;text-align:left;background:var(--bg);border:2px dashed var(--line);border-radius:14px;padding:1rem 1.1rem;margin:1.2rem 0 1.2rem;font-family:Fraunces,Georgia,serif;line-height:1.6}
+#carta label{display:block;text-align:left;font-weight:600;margin-bottom:.4rem}
+#resp{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:.8rem 1rem;resize:vertical}
+#resp:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+.acoes{display:flex;gap:.7rem;flex-wrap:wrap;justify-content:center;margin-top:.9rem}
+a.btn{background:var(--rose);color:var(--rose-ink);text-decoration:none;font-weight:600;border-radius:999px;padding:.8rem 1.4rem}
+a.btn:focus-visible,#copiar:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+#copiar{background:transparent;color:var(--soft);border:2px solid var(--line)}
+#status{margin:.8rem 0 0;font-size:.9rem;min-height:1.3rem}
+@media (prefers-reduced-motion:reduce){.heart,.shake,.done,#sim,.bg i,.quebra{animation:none!important}.hearts i{animation-duration:.01s!important}#nao.fly,#sim,main{transition:none}}
 </style>
 </head>
-
 <body>
-<h1>Marcones.https</h1>
+<main id="card">
+  <div class="heart" aria-hidden="true">💌</div>
+  <h1 id="titulo"></h1>
+  <p id="texto"></p>
+  <div class="row" id="row">
+    <button id="sim">Sim!</button>
+    <button id="nao">Não</button>
+  </div>
+<section id="carta" hidden>
+  <div class="papel" id="papel"></div>
+  <label for="resp">Sua resposta</label>
+  <textarea id="resp" rows="4" placeholder="Me conta quando você quer ir…"></textarea>
+  <div class="acoes">
+    <a id="enviar" class="btn" href="#">Enviar por e-mail</a>
+    <button id="copiar" type="button">Copiar resposta</button>
+  </div>
+  <p id="status" role="status"></p>
+</section>
+</main>
+<div class="bg" id="bg" aria-hidden="true"></div>
+<div class="hearts" id="hearts" aria-hidden="true"></div>
+<script>
+// ✏️ Edite aqui:
+var NOME_DELA = "Thayla";            // quem vai receber o pedido
+var SEU_NOME  = "João Pedro R. Brandão";             // quem está pedindo
+var MENSAGEM  = "Fiz isso especialmente pra você, meu bemzinho.";
+var RESPOSTA  = "Saiba que irei fazer de você uma mulher extremamente feliz. Te amo e admiro! :)";
 
-<div class="caixa-texto">
-        <h2>Título da Caixa</h2>
-        <p>Aqui dentro você pode escrever o que quiser!</p>
-</div>
-    
+var titulo = document.getElementById("titulo");
+var texto = document.getElementById("texto");
+var sim = document.getElementById("sim");
+var nao = document.getElementById("nao");
+var card = document.getElementById("card");
+var tentativas = 0;
+var frases = ["Não", "Tem certeza?", "Pensa de novo…", "Lembra dos nossos momentos juntos", "O que construímos foi em vão?", "Olha o meu rostinho triste", "Quero te ver de vestido branco e véu", "Última chance!", "Vai, clica no Sim", "Esse botão está com defeito"];
 
+titulo.innerHTML = NOME_DELA + ", quer namorar <em>comigo?</em>";
+texto.textContent = MENSAGEM + " — " + SEU_NOME;
+
+function fugir(e){
+  if(e) e.preventDefault();
+  tentativas++;
+  nao.textContent = frases[((tentativas - 1) % (frases.length - 1)) + 1];
+  sim.style.setProperty("--s", Math.min(1 + tentativas * 0.18, 2.4));
+  var antes = nao.getBoundingClientRect();
+  if(nao.parentNode !== document.body){document.body.appendChild(nao);}
+  for(var k = 0; k < 4; k++){
+    var q = document.createElement("i");
+    q.className = "quebra";
+    q.textContent = "\uD83D\uDC94";
+    q.style.left = (antes.left + antes.width / 2 + (k - 1.5) * 14) + "px";
+    q.style.top = (antes.top + antes.height / 2) + "px";
+    document.body.appendChild(q);
+    setTimeout(function(el){ el.remove(); }, 950, q);
+  }
+  nao.classList.add("fly");
+  var mx = Math.min(window.innerWidth * 0.25, 140), my = Math.min(window.innerHeight * 0.18, 110);
+  card.style.setProperty("--x", ((Math.random() - 0.5) * 2 * mx) + "px");
+  card.style.setProperty("--y", ((Math.random() - 0.5) * 2 * my) + "px");
+  card.style.setProperty("--r", ((Math.random() - 0.5) * 10) + "deg");
+  card.classList.remove("shake");
+  void card.offsetWidth;
+  card.classList.add("shake");
+  var w = window.innerWidth - nao.offsetWidth - 16;
+  var h = window.innerHeight - nao.offsetHeight - 16;
+  nao.style.left = Math.max(8, Math.random() * w) + "px";
+  nao.style.top = Math.max(8, Math.random() * h) + "px";
+}
+nao.addEventListener("click", fugir);
+
+sim.addEventListener("click", function(){
+  card.classList.add("done");
+  card.style.setProperty("--x", "0px");
+  card.style.setProperty("--y", "0px");
+  card.style.setProperty("--r", "0deg");
+  titulo.innerHTML = "Você disse <em>sim!</em>";
+  texto.textContent = RESPOSTA;
+  document.getElementById("row").style.display = "none";
+  abrirCarta();
+  nao.style.display = "none";
+  var box = document.getElementById("hearts");
+  var em = ["❤️","💖","💕","💘","💗"];
+  for(var i = 0; i < 40; i++){
+    var el = document.createElement("i");
+    el.textContent = em[i % em.length];
+    el.style.left = Math.random() * 100 + "vw";
+    el.style.fontSize = (1.2 + Math.random() * 1.6) + "rem";
+    el.style.animationDuration = (2.5 + Math.random() * 3) + "s";
+    el.style.animationDelay = (Math.random() * 1.2) + "s";
+    box.appendChild(el);
+  }
+});
+var EMAIL = "pedroxz007x@gmail.com";
+var CARTA = "Querida " + NOME_DELA + ",\n\nQuero te levar para sair e comemorarmos esse começo juntos. Escolha o dia e o que combinar mais com você, que eu cuido do resto.\n\nCom carinho,\n" + SEU_NOME;
+var resp = document.getElementById("resp");
+var enviar = document.getElementById("enviar");
+var btnCopiar = document.getElementById("copiar");
+var statusEl = document.getElementById("status");
+
+function abrirCarta(){
+  document.getElementById("papel").textContent = CARTA;
+  document.getElementById("carta").hidden = false;
+  document.body.classList.add("aberta");
+}
+function montar(){
+  return "Resposta de " + NOME_DELA + ":\n\n" + resp.value.trim();
+}
+function atualizarLink(){
+  enviar.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent("Resposta da " + NOME_DELA + " à sua carta") + "&body=" + encodeURIComponent(montar());
+}
+resp.addEventListener("input", atualizarLink);
+enviar.addEventListener("click", function(e){
+  if(!resp.value.trim()){
+    e.preventDefault();
+    statusEl.textContent = "Escreva sua resposta antes de enviar.";
+    return;
+  }
+  atualizarLink();
+  statusEl.textContent = "Abrindo seu app de e-mail. Falta só apertar em enviar. Se não abrir, use Copiar resposta.";
+});
+btnCopiar.addEventListener("click", function(){
+  if(!resp.value.trim()){
+    statusEl.textContent = "Escreva sua resposta antes de copiar.";
+    return;
+  }
+  var ok = function(){ statusEl.textContent = "Copiado! Cole numa conversa com " + SEU_NOME + "."; };
+  var falha = function(){ resp.select(); statusEl.textContent = "Não consegui copiar sozinho. Selecione o texto e copie."; };
+  try{ navigator.clipboard.writeText(montar()).then(ok, falha); }catch(err){ falha(); }
+});
+
+(function(){
+  var bg = document.getElementById("bg");
+  var em = ["\u2764\uFE0F","\uD83D\uDC95","\uD83D\uDC97","\u2728"];
+  for(var i = 0; i < 14; i++){
+    var el = document.createElement("i");
+    el.textContent = em[i % em.length];
+    el.style.left = (Math.random() * 100) + "vw";
+    el.style.fontSize = (1 + Math.random() * 1.4) + "rem";
+    el.style.animationDuration = (9 + Math.random() * 8) + "s";
+    el.style.animationDelay = (-Math.random() * 14) + "s";
+    bg.appendChild(el);
+  }
+})();
+</script>
 </body>
-
 </html>
